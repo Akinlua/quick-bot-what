@@ -70,6 +70,7 @@ client.on('message', async (message) => {
     try {
         // Check if message is from the target group
         const chat = await message.getChat();
+        console.log(chat)
         const date = new Date();
         console.log("chat ", date)
         if (chat.name !== TARGET_GROUP) {
