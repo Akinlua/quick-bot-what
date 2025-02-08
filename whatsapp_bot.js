@@ -48,7 +48,8 @@ const client = new Client({
 });
 
 // Configuration
-const TARGET_GROUP = 'EEE 355 Courseware Chatroom';
+const TARGET_GROUP = 'Tesals sponsors GC';
+// const TARGET_GROUP = 'EEE 355 Courseware Chatroom';
 const TARGET_SENDER = '2347064156849@c.us'; // Format: number@c.us
 
 
