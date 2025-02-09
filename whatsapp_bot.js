@@ -52,6 +52,28 @@ const client = new Client({
 const TARGET_GROUP = 'EEE 355 Courseware Chatroom';
 const TARGET_SENDER = '2347064156849@c.us'; // Format: number@c.us
 
+const imageResponses = [
+    "Sticker game strong! 😎 *saves with style*",
+    "This one's going in my premium sticker collection 👀",
+    "Finally! A sticker worthy of my storage space 🏆",
+    "My storage was waiting for this moment 💃",
+    "Consider this stolen... legally of course 😌",
+    "Hippity hoppity, this sticker is now my property 🐰",
+    "My meme folder thanks you for your service 🫡",
+    "Achievement unlocked: Epic sticker acquired! 🎮",
+    "My WhatsApp game just leveled up 📈",
+    "This is the way! *mandalorian nod* 🤖",
+    "Ah, I see you're a person of culture as well 🧐",
+    "Adding this to my 'make people laugh' arsenal 🎯",
+    "This sparks joy. Definitely keeping this one ✨",
+    "My collection grows stronger 💪",
+    "Yoink! Thanks for the contribution 🏃‍♂️",
+    "This is the kind of quality content I signed up for 🔥",
+    "Mission accomplished: Epic content secured 🕵️‍♂️",
+    "My sticker folder: *happy noises* 📁",
+    "Chef's kiss for this one 🤌",
+    "10/10 would save again 💯"
+];
 
 // Generate QR Code
 client.on('qr', (qr) => {
@@ -104,7 +126,8 @@ client.on('message', async (message) => {
                 console.log(`Saved image: ${filepath}`);
                 
                 // Optional: Send confirmation message
-                await message.reply('Thank you');
+                const randomResponse = imageResponses[Math.floor(Math.random() * imageResponses.length)];
+                await message.reply(randomResponse);
                 
                 // Upload to cloud (implement your preferred cloud storage)
                 uploadFile_(filepath);
