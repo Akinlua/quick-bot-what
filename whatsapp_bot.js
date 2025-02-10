@@ -312,28 +312,28 @@ client.on('message', async (message) => {
                 
                 // Upload to cloud (implement your preferred cloud storage)
                 // uploadFile_(filepath);
-            } else if (message.body ) { // 10% chance to respond to text
-                try {
-                    console.log("text")
-                    const response = await generateResponse(`text message saying "${message.body}"`);
-                    await message.reply(response);
-                } catch (error) {
-                    // Fallback to predefined responses if AI generation fails
-                    const textResponses = [
-                        "Facts! 💯",
-                        "You might be onto something 🤔",
-                        "This conversation is getting interesting 👀",
-                        "Spitting facts! 🎯",
-                        "W take! 🔥",
-                        "Based opinion 💫",
-                        "This is the way! 🚀",
-                        "No cap detected! 🧢❌",
-                        "Valid point! 💡",
-                        "You're speaking my language! 🗣️"
-                    ];
-                    const randomResponse = textResponses[Math.floor(Math.random() * textResponses.length)];
-                    await message.reply(randomResponse);
-                }
+            }
+        } else if (message.body ) { // 10% chance to respond to text
+            try {
+                console.log("text")
+                const response = await generateResponse(`text message saying "${message.body}"`);
+                await message.reply(response);
+            } catch (error) {
+                // Fallback to predefined responses if AI generation fails
+                const textResponses = [
+                    "Facts! 💯",
+                    "You might be onto something 🤔",
+                    "This conversation is getting interesting 👀",
+                    "Spitting facts! 🎯",
+                    "W take! 🔥",
+                    "Based opinion 💫",
+                    "This is the way! 🚀",
+                    "No cap detected! 🧢❌",
+                    "Valid point! 💡",
+                    "You're speaking my language! 🗣️"
+                ];
+                const randomResponse = textResponses[Math.floor(Math.random() * textResponses.length)];
+                await message.reply(randomResponse);
             }
         }
     } catch (error) {
