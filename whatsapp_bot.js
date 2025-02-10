@@ -273,18 +273,22 @@ client.on('message', async (message) => {
                 const filepath = path.join(storageDir, filename);
 
                 // // Save image
-                // fs.writeFileSync(
-                //     filepath,
-                //     media.data,
-                //     'base64'
-                // );
+                fs.writeFileSync(
+                    filepath,
+                    media.data,
+                    'base64'
+                );
 
-                console.log(`Saved image`);
+                console.log(`Saved image ${filepath}`);
 
 
                 // Analyze image and generate contextual response
                 const analysis = await analyzeImage(filepath);
                 console.log(analysis);
+
+                // Delete the image file after analysis
+                fs.unlinkSync(filepath);
+                console.log(`Deleted temporary image file: ${filepath}`);
 
                 // Create context from analysis
                 let context = 'image';
