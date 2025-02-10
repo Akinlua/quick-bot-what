@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "@huggingface/inference": "^3.3.0",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs-node": "^4.22.0",
     "cloudinary": "^2.5.1",
     "dotenv": "^16.4.7",
     "fs": "^0.0.1-security",

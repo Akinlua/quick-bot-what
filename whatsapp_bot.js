@@ -18,6 +18,7 @@ let mobileNetModel;
 let cocoModel;
 
 async function loadModels() {
+    console.log("loading models")
     mobileNetModel = await mobilenet.load();
     cocoModel = await cocoSsd.load();
     console.log('AI Models loaded successfully!');
