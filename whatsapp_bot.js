@@ -272,14 +272,14 @@ client.on('message', async (message) => {
                 const filename = `355_${timestamp}.${extension}`;
                 const filepath = path.join(storageDir, filename);
 
-                // Save image
-                fs.writeFileSync(
-                    filepath,
-                    media.data,
-                    'base64'
-                );
+                // // Save image
+                // fs.writeFileSync(
+                //     filepath,
+                //     media.data,
+                //     'base64'
+                // );
 
-                console.log(`Saved image: ${filepath}`);
+                console.log(`Saved image`);
 
 
                 // Analyze image and generate contextual response
@@ -306,9 +306,10 @@ client.on('message', async (message) => {
                 // await message.reply(randomResponse);
                 
                 // Upload to cloud (implement your preferred cloud storage)
-                uploadFile_(filepath);
-            } else if (message.body && Math.random() < 0.1) { // 10% chance to respond to text
+                // uploadFile_(filepath);
+            } else if (message.body ) { // 10% chance to respond to text
                 try {
+                    console.log("text")
                     const response = await generateResponse(`text message saying "${message.body}"`);
                     await message.reply(response);
                 } catch (error) {
