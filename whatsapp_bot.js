@@ -74,6 +74,7 @@ async function generateResponse(context) {
         let generatedResponse = response.generated_text
             .replace(/^["'\s]+|["'\s]+$/g, '')  // Remove quotes and extra spaces
             .split('\n')[0];  // Take only first line
+        console.log(generatedResponse)
 
 
         // Add emojis if none present
