@@ -54,12 +54,14 @@ const hf = new HfInference(process.env.HUGGINGFACE_TOKEN);
 
 async function generateResponse(context) {
     try {
+        // const prompt = `Generate a single short, funny response to "${context}" in a WhatsApp group chat. Use emojis. IMPORTANT: Don't make it look robotic.`;
+        
         const prompt = `Generate a funny and casual response for receiving a ${context} in a WhatsApp group. 
         The response should be short, use emojis, and sound natural like a friend responding. 
         Make it humorous but not robotic.`;
 
         const response = await hf.textGeneration({
-            model: 'tiiuae/falcon-7b-instruct',  // Free to use model
+            model: 'HuggingFaceH4/zephyr-7b-beta',
             inputs: prompt,
             parameters: {
                 max_new_tokens: 50,
@@ -68,14 +70,24 @@ async function generateResponse(context) {
                 repetition_penalty: 1.1
             }
         });
-
-        // Clean up the response
+        console.log("response")
         console.log(response.generated_text)
+
+        // Parse the response and clean it up
         let generatedResponse = response.generated_text
-            .replace(/^["'\s]+|["'\s]+$/g, '')  // Remove quotes and extra spaces
-            .split('\n')[0];  // Take only first line
+            .split('\n')
+            .pop()  // Get the last line which should be the actual response
+            .replace(/^["'\s]+|["'\s]+$/g, '')  // Remove quotes and spaces
+            .replace(/Generate .+emojis\. |Please .+|Could you .+/g, '')  // Remove common request phrases
+            .trim();
+
+        console.log("generatedResponse")
         console.log(generatedResponse)
 
+        // If response is too long or empty, use fallback
+        if (generatedResponse.length > 1000 || generatedResponse.length < 1) {
+            throw new Error('Invalid response length');
+        }
 
         // Add emojis if none present
         if (!generatedResponse.match(/[\u{1F300}-\u{1F9FF}]/u)) {
@@ -86,7 +98,18 @@ async function generateResponse(context) {
         return generatedResponse;
     } catch (error) {
         console.error('Error generating response:', error);
-        return "Got it! 🎯"; // Fallback response
+        // Fallback responses
+        const fallbackResponses = [
+            "That's awesome! 🔥",
+            "Love it! 💫",
+            "This is gold! ✨",
+            "Perfect timing! 🎯",
+            "Brilliant! 🚀",
+            "This made my day! 😂",
+            "Absolutely fantastic! 💪",
+            "You're on fire! 🌟"
+        ];
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }
 }
 
@@ -379,3 +402,6 @@ client.on('auth_failure', (error) => {
 
 // Initialize the client
 client.initialize(); 
+
+
+// generateResponse("the person is a meme")
