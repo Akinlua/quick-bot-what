@@ -28,7 +28,19 @@ loadModels();
 
 async function analyzeImage(filepath) {
     try {
-        const image = await tf.node.decodeImage(fs.readFileSync(filepath));
+        // Read the file and convert it to the correct format
+        const imageBuffer = fs.readFileSync(filepath);
+        
+        // Check if the image is in WebP format
+        if (filepath.endsWith('.webp')) {
+            // If you want to handle WebP, you'll need to convert it first
+            // For now, we'll skip analysis for WebP images
+            return null;
+        }
+        console.log("imageBuffer")
+
+        // Create a buffer from the image data
+        const image = await tf.node.decodeImage(imageBuffer, 3); // 3 channels for RGB
         
         // Get general classification
         const mobileNetPredictions = await mobileNetModel.classify(image);
@@ -294,18 +306,25 @@ client.on('message', async (message) => {
                 // Generate filename with timestamp
                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
                 const extension = mime.extension(media.mimetype);
+                
+                // Skip WebP images or convert them if needed
+                if (extension === 'webp') {
+                    // For now, we'll skip WebP images
+                    const response = await generateResponse('sticker or image');
+                    await message.reply(response);
+                    return;
+                }
+
                 const filename = `355_${timestamp}.${extension}`;
                 const filepath = path.join(storageDir, filename);
 
-                // // Save image
+                // Save image as binary data instead of base64
                 fs.writeFileSync(
                     filepath,
-                    media.data,
-                    'base64'
+                    Buffer.from(media.data, 'base64')
                 );
 
                 console.log(`Saved image ${filepath}`);
-
 
                 // Analyze image and generate contextual response
                 const analysis = await analyzeImage(filepath);
